@@ -34,7 +34,7 @@ app.post('/next', function (req, res ){
     res.send('Playing next song.')
 })
 
-// If song progress is < 3 seconds, play revious song. Otherwise, restart current song
+// If song progress is <= 3 seconds, play revious song. Otherwise, restart current song
 app.post('/prev', function (req, res ){
     cmd.get(
         'mpc',
