@@ -32,7 +32,8 @@
     },
     "spotifyUri" : string,
     "useMotionToActivate" : boolean, // optional
-    "random" : boolean // optional
+    "random" : boolean, // optional
+    "fadeIn" :boolean // optional
   }
 ```
   
