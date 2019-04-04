@@ -10,6 +10,7 @@
 /stop
 
 /addSession
+```
   {
     "schedule" : {
       "minute" : "*/1",
@@ -20,6 +21,7 @@
     },
     "spotifyUri" : "One ring to bring them all."
   }
+```
   
 /removeSession/:id
 
