@@ -39,4 +39,5 @@
 /getAllSessions
 
 /editSession/:id
-  not implemented
+ ```not implemented
+ ```
