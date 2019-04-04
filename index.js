@@ -34,7 +34,7 @@ app.post('/next', function (req, res ){
     res.send('Playing next song.')
 })
 
-// If song progress is <= 3 seconds, play revious song. Otherwise, restart current song
+// If song progress is < 3 seconds, play revious song. Otherwise, restart current song
 app.post('/prev', function (req, res ){
     cmd.get(
         'mpc',
@@ -91,8 +91,46 @@ app.post('/stop', function (req, res ){
     res.send('Music stopped.')
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// Session controls
+var scheduledSessions = {};
+var idCounter = 0;
 
-// var j = schedule.scheduleJob('*/1 * * * *', function(){
-//     console.log('The answer to life, the universe, and everything!');
-// });
+app.post('/addSession', function (req, res){
+    var cron_string = `${req.body.schedule.minute} ${req.body.schedule.hour} ${req.body.schedule.day_of_month} ${req.body.schedule.month} ${req.body.schedule.day_of_week}`;
+    var s = schedule.scheduleJob(cron_string, function(){
+        console.log(req.body.spotifyUri)
+    });
+    var sessionData = { id: idCounter,
+                        schedule: req.body.schedule,
+                        spotifyUri: req.body.spotifyUri,
+                        useMotionToActivate: req.body.useMotionToActivate ? req.body.useMotionToActivate : false,
+                        random: req.body.random ? req.body.random : false,
+                        session: s
+                      }
+    scheduledSessions[sessionData.id] = sessionData;
+    idCounter = idCounter + 1;
+    console.log(scheduledSessions);
+    res.send('New session received')
+})
+
+app.post('/removeSession/:id', function (req, res){
+    var session = scheduledSessions[req.params.id];
+    if(session){
+        session.session.cancel();
+        delete scheduledSessions[req.params.id];
+        res.send(`Session: ${req.params.id} removed`)
+    } else {
+        res.send(`Could not find id: ${req.params.id}`)
+    }
+    
+})
+
+app.get('/getAllSessions', function (req, res){
+    res.send(scheduledSessions)
+})
+
+app.post('/editSession/:id', function (req, res){
+    res.send("Not implemented")
+})
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
