@@ -2,11 +2,17 @@
 
 
 /play/:spotifyUri
+
 /pause
+
 /next
+
 /prev
+
 /volume/:newVolume
+
 /getCurrentTrackDetails
+
 /stop
 
 /addSession
