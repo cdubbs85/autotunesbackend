@@ -24,13 +24,15 @@
 ```
   {
     "schedule" : {
-      "minute" : "*/1",
+      "minute" : "*",
           "hour" : "*",
           "day_of_month" : "*",
           "month" : "*",
           "day_of_week" : "*"
     },
-    "spotifyUri" : "One ring to bring them all."
+    "spotifyUri" : string,
+    "useMotionToActivate" : boolean, // optional
+    "random" : boolean // optional
   }
 ```
   
