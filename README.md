@@ -43,5 +43,17 @@
 
 /editSession/:id
  ```
-  not implemented
+  {
+    "schedule" : {
+      "minute" : "*",
+      "hour" : "*",
+      "day_of_month" : "*",
+      "month" : "*",
+      "day_of_week" : "*"
+    }, // optional
+    "spotifyUri" : string, // optional
+    "useMotionToActivate" : boolean, // optional
+    "random" : boolean, // optional
+    "fadeIn" :boolean // optional
+  }
  ```
