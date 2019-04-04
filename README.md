@@ -1,6 +1,8 @@
 # autotunesbackend
 
 
+**Playback Controls**
+
 /play/:spotifyUri
 
 /pause
@@ -14,6 +16,9 @@
 /getCurrentTrackDetails
 
 /stop
+
+
+**Session Management**
 
 /addSession
 ```
