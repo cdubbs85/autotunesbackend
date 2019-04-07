@@ -30,6 +30,7 @@
       "month" : "*",
       "day_of_week" : "*"
     },
+    "duration" : int (time to play in minutes)
     "spotifyUri" : string,
     "useMotionToActivate" : boolean, // optional
     "random" : boolean, // optional
