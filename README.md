@@ -30,7 +30,7 @@
       "month" : "*",
       "day_of_week" : "*"
     },
-    "duration" : int (time to play in minutes)
+    "duration" : number (time to play in minutes)
     "spotifyUri" : string,
     "useMotionToActivate" : boolean, // optional
     "random" : boolean, // optional
@@ -53,6 +53,7 @@
       "day_of_week" : "*"
     }, // optional
     "spotifyUri" : string, // optional
+    "duration" : number (time to play in minutes) // optional
     "useMotionToActivate" : boolean, // optional
     "random" : boolean, // optional
     "fadeIn" :boolean // optional
