@@ -95,34 +95,76 @@ app.post('/stop', function (req, res ){
 var scheduledSessions = {};
 var idCounter = 0;
 
+function createCronString(schedule){
+    return `${schedule.minute} ${schedule.hour} ${schedule.day_of_month} ${schedule.month} ${schedule.day_of_week}`;
+}
+
+function createJob(session){
+    var cron_string = createCronString(session.schedule);
+    var sesh = schedule.scheduleJob(cron_string, function(){
+        console.log(`Playing session for spotifyUri: ${session.spotifyUri}`);
+        cmd.run('mpc clear');
+        if(session.useMotionToActivate){
+            // do something
+        }
+        if(session.random){
+            cmd.run('mpc random');
+        }
+        if(session.fadeIn){
+            var volumeInterval = 10;
+            var timeInterval = 2000;
+            var currentInterval = timeInterval;
+            var i;
+            for (i = 1; i <= 10; i++) { 
+                // console.log(`timeInt: ${currentInterval}`)
+                setTimeout(fadeInRunner, currentInterval, i * volumeInterval)
+                currentInterval += timeInterval;
+            }
+            cmd.run('mpc volume 10')
+        }
+        cmd.run(`mpc add ${session.spotifyUri}`);
+        // start session
+        cmd.run('mpc play');
+
+        // stop playing after set time
+        setTimeout(function(){
+            cmd.run('mpc stop');
+            cmd.run('mpc clear');
+        }, session.duration)
+    })
+    session.node_schedule_object = sesh;
+}
+
+function fadeInRunner(volume){
+    // console.log(volume)
+    cmd.run(`mpc volume ${volume}`)
+    return;
+}
+
 app.post('/addSession', function (req, res){
-    var cron_string = `${req.body.schedule.minute} ${req.body.schedule.hour} ${req.body.schedule.day_of_month} ${req.body.schedule.month} ${req.body.schedule.day_of_week}`;
-    var s = schedule.scheduleJob(cron_string, function(){
-        console.log(req.body.spotifyUri)
-    });
     var sessionData = { id: idCounter,
                         schedule: req.body.schedule,
+                        duration: req.body.duration  * 60000,  //convert minutes to milliseconds with * 60000
                         spotifyUri: req.body.spotifyUri,
                         useMotionToActivate: req.body.useMotionToActivate ? req.body.useMotionToActivate : false,
                         random: req.body.random ? req.body.random : false,
-                        session: s
+                        fadeIn: req.body.fadeIn ? req.body.fadeIn : false
                       }
+    createJob(sessionData);
     scheduledSessions[sessionData.id] = sessionData;
     idCounter = idCounter + 1;
-    console.log(scheduledSessions);
-    res.send('New session received')
+    res.send(`New session id: ${sessionData.id}`)
 })
 
 app.post('/removeSession/:id', function (req, res){
     var session = scheduledSessions[req.params.id];
     if(session){
-        session.session.cancel();
+        session.node_schedule_object.cancel();
         delete scheduledSessions[req.params.id];
         res.send(`Session: ${req.params.id} removed`)
     } else {
         res.send(`Could not find id: ${req.params.id}`)
-    }
-    
+    }  
 })
 
 app.get('/getAllSessions', function (req, res){
@@ -130,7 +172,37 @@ app.get('/getAllSessions', function (req, res){
 })
 
 app.post('/editSession/:id', function (req, res){
-    res.send("Not implemented")
+    var session = scheduledSessions[req.params.id];
+    if(session){
+        if (req.body.schedule){
+            session.schedule = req.body.schedule;
+        }
+        if (req.body.duration){
+            session.duration = req.body.duration
+        }
+        if (req.body.spotifyUri){
+            session.spotifyUri = req.body.spotifyUri;
+        }
+        if (req.body.useMotionToActivate){
+            session.useMotionToActivate = req.body.useMotionToActivate;
+        }
+        if (req.body.random){
+            session.random = req.body.random;
+        }
+        if (req.body.fadeIn){
+            session.fadeIn = req.body.fadeIn;
+        }
+        // You can only change the schedule of an exisiting job. So the easiest approach is to always create a new job
+        session.node_schedule_object.cancel();
+        createJob(session);
+        res.send(`Session ${req.params.id} updated.`);
+    }
+    else {
+        res.send(`Unable to find session with id: ${req.params.id}`);
+    }
 })
+
+cmd.run('mpc stop');
+cmd.run('mpc clear');
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
