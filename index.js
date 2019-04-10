@@ -155,11 +155,13 @@ function fadeInHelper(volume){
 }
 
 app.post('/addSession', function (req, res){
+    console.log("In add session!");
     var sessionData = { id: idCounter,
                         sessionName: req.body.sessionName,
                         schedule: req.body.schedule,
                         duration: req.body.duration  * 60000,  //convert minutes to milliseconds with * 60000
                         spotifyUri: req.body.spotifyUri,
+                        imageUri: req.body.imageUri,
                         useMotionToActivate: req.body.useMotionToActivate ? req.body.useMotionToActivate : false,
                         random: req.body.random ? req.body.random : false,
                         fadeIn: req.body.fadeIn ? req.body.fadeIn : false
