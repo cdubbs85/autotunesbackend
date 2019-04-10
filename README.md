@@ -41,6 +41,26 @@
 /removeSession/:id
 
 /getAllSessions
+returns 
+```
+  [
+    { 
+      "id" : number
+      "schedule" : {
+        "minute" : "*",
+        "hour" : "*",
+        "day_of_month" : "*",
+        "month" : "*",
+        "day_of_week" : "*"
+      },
+      "duration" : number (time to play in minutes)
+      "spotifyUri" : string,
+      "useMotionToActivate" : boolean,
+      "random" : boolean,
+      "fadeIn" :boolean
+    }
+  ]
+```
 
 /editSession/:id
  ```
