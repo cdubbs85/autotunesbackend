@@ -24,6 +24,7 @@
 ```
   body
   {
+    "sessionName": string
     "schedule" : {
       "minute" : "*",
       "hour" : "*",
@@ -46,7 +47,8 @@
   returns
   [
     { 
-      "id" : number
+      "id" : number,
+      "sessionName": string,
       "schedule" : {
         "minute" : "*",
         "hour" : "*",
@@ -69,6 +71,7 @@
  ```
   body
   {
+    "sessionName": string, // optional
     "schedule" : {
       "minute" : "*",
       "hour" : "*",
