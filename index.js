@@ -16,7 +16,7 @@ var db = new loki('Sessions.db', {
 	autoload: true,
 	autoloadCallback : databaseInitialize,
 	autosave: true, 
-    autosaveInterval: 4000
+    	autosaveInterval: 4000
 });
 
 // PLAYBACK CONTROLS
