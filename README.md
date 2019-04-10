@@ -22,6 +22,7 @@
 
 /addSession
 ```
+  body
   {
     "schedule" : {
       "minute" : "*",
@@ -40,9 +41,9 @@
   
 /removeSession/:id
 
-/getAllSessions
-returns 
+/getAllSessions 
 ```
+  returns
   [
     { 
       "id" : number
@@ -64,6 +65,7 @@ returns
 
 /editSession/:id
  ```
+  body
   {
     "schedule" : {
       "minute" : "*",
