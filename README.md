@@ -58,7 +58,9 @@
       "spotifyUri" : string,
       "useMotionToActivate" : boolean,
       "random" : boolean,
-      "fadeIn" :boolean
+      "fadeIn" :boolean,
+      "node_schedule_object" : IGNORE,
+      "meta" : IGNORE
     }
   ]
 ```
