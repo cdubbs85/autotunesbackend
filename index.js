@@ -241,9 +241,9 @@ app.post('/editSession/:id', function (req, res){
 })
 
 app.post('/removeAllSessions', function (req, res){
-    scheduledSessions.find().forEach(function(session){
-        session.node_schedule_object.cancel();
-    })
+//     scheduledSessions.find().forEach(function(session){
+//         session.node_schedule_object.cancel();
+//     })
     scheduledSessions.clear();
     res.send("All sessions removed");
 })
