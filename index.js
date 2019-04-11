@@ -226,7 +226,7 @@ app.post('/editSession/:id', function (req, res){
         }
 
         // You can only change the schedule of an exisiting job. So the easiest approach is to always create a new job
-        session.node_schedule_object.cancel();
+//         session.node_schedule_object.cancel();
 
         createJob(session);
 
