@@ -182,7 +182,7 @@ app.post('/removeSession/:id', function (req, res){
 
     if(session){
 
-        session.node_schedule_object.cancel();
+//         session.node_schedule_object.cancel();
 
         scheduledSessions.remove(session);
 
