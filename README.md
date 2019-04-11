@@ -86,3 +86,5 @@
     "fadeIn" :boolean // optional
   }
  ```
+
+/removeAllSessions
